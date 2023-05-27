@@ -1,0 +1,39 @@
+node {
+    git url: 'https://github.com/jfrogdev/project-examples.git'
+
+    def server = Artifactory.server "i-073d5cb09fbebdb17"
+    def downloadSpec =
+            '''{
+            "files": [
+                {
+                    "pattern": "libs-snapshot-local/*.zip",
+                    "target": "dependencies/",
+                    "props": "p1=v1;p2=v2"
+                }
+            ]
+        }'''
+
+    def buildInfo1 = server.download spec: downloadSpec
+
+    def uploadSpec =
+            '''{
+            "files": [
+                {
+                    "pattern": "resources/Kermit.*",
+                    "target": "libs-snapshot-local",
+                    "props": "p1=v1;p2=v2"
+                },
+                {
+                    "pattern": "resources/Frogger.*",
+                    "target": "libs-snapshot-local"
+                }
+            ]
+        }'''
+
+ 
+    def buildInfo2 = server.upload spec: uploadSpec
+
+    buildInfo1.append buildInfo2
+
+    server.publishBuildInfo buildInfo1
+}
