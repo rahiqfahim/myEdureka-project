@@ -7,6 +7,8 @@ Fedora/RHEL
 Amazon Linux
 
 Kali Linux
+
+REdHat Linux/unix
 ansible -m package -a "name=git state=present" -b  -- IaC
 
 edureka@kmaster:~/scripts$ cat installGit.sh   --- Irrespective of Linux flavor ( Evaluate Multiple if conditions)
